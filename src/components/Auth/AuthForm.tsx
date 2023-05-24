@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
-import { authInterface } from '../../interface/auth.interface'
-import { authService } from '../../service/auth.service'
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux'
+import { IAuth } from '../../interface/auth.interface'
+import { fetchCheckAccountStatus } from '../../store/slices/authSlice'
 import './Auth.scss'
 
 export const AuthForm = () => {
-  const [values, setValues] = useState<authInterface>({
-    id: '',
-    api: '',
-  })
-  const submitHandler = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const dispatch = useAppDispatch()
+  const { loading, error } = useAppSelector(store => store.auth)
 
-    await authService.login(values)
+  const [values, setValues] = useState<IAuth>({
+    id: '1101824301',
+    api: '4ebb8dabe1b143c0b6bfe1659e42f28851bbe7da9b234d1c93',
+  })
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault()
+    dispatch(fetchCheckAccountStatus(values))
+
+    localStorage.setItem('id', values.id)
+    localStorage.setItem('api', values.api)
   }
 
   return (
@@ -26,6 +32,7 @@ export const AuthForm = () => {
               className="auth__input"
               type="text"
               placeholder="Введите idInstance"
+              required
             />
           </label>
         </div>
@@ -37,10 +44,13 @@ export const AuthForm = () => {
               className="auth__input"
               type="text"
               placeholder="Введите apiTokenInstance"
+              required
             />
           </label>
         </div>
-        <button className="auth__btn">Войти</button>
+        <button className="auth__btn">{loading ? 'Загрузка...' : 'Войти'}</button>
+
+        <span className="auth__error">{error && 'Ошибка в данных авторизации'}</span>
       </form>
     </div>
   )

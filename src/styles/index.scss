@@ -54,3 +54,14 @@ button {
   padding: 0 15px;
   margin: 0 auto;
 }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  &__text {
+    font-size: 2rem;
+  }
+}
