@@ -1,7 +1,5 @@
 # whatsapchat
 
-# whatsapchat
-
 Запуск 
 npm install
 npm run dev
