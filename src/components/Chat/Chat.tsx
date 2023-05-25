@@ -3,22 +3,27 @@ import { BiLogOut } from 'react-icons/bi'
 import { GrAdd } from 'react-icons/gr'
 import defaultAvatar from '../../assets/defaultAvatar.jpg'
 import { useFormatNumber } from '../../hooks/useFormatPhone'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux'
-import { messageService } from '../../service/message.service'
 import { logout } from '../../store/slices/authSlice'
-import { addContact } from '../../store/slices/contactsSlice'
+import { addContact, addMessage } from '../../store/slices/contactsSlice'
+import { Contact } from '../Contact/Contact'
 import { AddContact } from '../UI/Form/AddContact'
+import { SendMessage } from '../UI/Form/SendMessage'
 import { Modal } from '../UI/Modal/Modal'
 import './Chat.scss'
+import { messageService } from '../../service/message.service'
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
   const { contacts } = useAppSelector(store => store.contact)
-  const { messages } = useAppSelector(store => store.message)
-  const formatNumber = useFormatNumber()
   const [inputAddNumberValue, setInputAddNumberValue] = useState('')
   const [messageValue, setMessageValue] = useState('')
   const [selectedContact, setSelectedContact] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+
+  const formatNumber = useFormatNumber()
+  useLocalStorage()
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const reg = /[^0-9,-,+]/g
@@ -30,10 +35,11 @@ export const Chat = () => {
     e.preventDefault()
     const contactData = {
       phone: inputAddNumberValue,
-      message: '',
+      messages: [],
     }
     dispatch(addContact(contactData))
     setInputAddNumberValue('')
+    setOpenModal(false)
   }
 
   const selectContact = (phone: string) => {
@@ -43,14 +49,20 @@ export const Chat = () => {
   const sendMessageHandler = (e: React.FormEvent) => {
     e.preventDefault()
     const data = {
-      chatId: '79992123679@c.us',
-      message: 'yes',
+      chatId: selectedContact.slice(1) + '@c.us',
+      message: messageValue,
     }
     messageService.sendMessage(data)
-  }
 
-  const logoutHandler = () => {
-    dispatch(logout())
+    const dataMessage = {
+      message: {
+        message: messageValue,
+        replay: false,
+      },
+      phone: selectedContact,
+    }
+    dispatch(addMessage(dataMessage))
+    setMessageValue('')
   }
 
   return (
@@ -66,12 +78,12 @@ export const Chat = () => {
           </div>
 
           <div className="mobile">
-            <button className="btn chat__btn chat__btn-mobile">
+            <button onClick={() => setOpenModal(true)} className="btn chat__btn chat__btn-mobile">
               <GrAdd />
             </button>
           </div>
 
-          <Modal>
+          <Modal setOpenModal={setOpenModal} openModal={openModal}>
             <AddContact
               addContactHandler={addContactHandler}
               inputAddNumberValue={inputAddNumberValue}
@@ -81,70 +93,61 @@ export const Chat = () => {
 
           <div className="contacts">
             <ul className="contacts__list">
-              {!contacts.length && <li className="contacts__empty">Контактов нет, добавьте один</li>}
+              {!contacts.length && (
+                <li className="contacts__empty contacts__empty-mob">Контактов нет, добавьте один</li>
+              )}
               {contacts.map(contact => {
-                return (
-                  <li
-                    onClick={() => selectContact(contact.phone)}
-                    key={contact.phone}
-                    className="contacts__item"
-                  >
-                    <div className="contacts__avatar avatar">
-                      <img className="contacts__avatar-img" src={defaultAvatar} alt="avatar" />
-                    </div>
-                    <div className="contacts__inner">
-                      <div className="contacts__title">{contact.phone}</div>
-                      <p className="contacts__lastMessage">{contact.message}</p>
-                    </div>
-                  </li>
-                )
+                return <Contact key={contact.phone} selectContact={selectContact} contact={contact} />
               })}
             </ul>
           </div>
         </div>
 
         <div className="chat__conversation">
-          <div className="chat__controls chat__conversation-controls">
+          <div
+            className={
+              selectedContact
+                ? 'chat__controls chat__conversation-controls'
+                : 'chat__controls chat__conversation-controls chat__controls-end'
+            }
+          >
             {selectedContact && (
               <div className="flex">
                 <div className="chat__avatar avatar">
                   <img src={defaultAvatar} alt="avatar" />
                 </div>
-                <div className="chat__phone">{formatNumber('+' + selectedContact)}</div>
+                <div className="chat__phone">{formatNumber(selectedContact)}</div>
               </div>
             )}
 
-            <button onClick={logoutHandler} className="logout btn chat__btn">
+            <button onClick={() => dispatch(logout())} className="logout btn chat__btn">
               <BiLogOut />
             </button>
           </div>
 
           <div className="conversation">
             <ul className="conversation__message">
-              {!messages.length && <li className="contacts__empty">Сообщений еще нет</li>}
-              {messages.map(message => {
-                return (
-                  <li key={message.message} className="message">
-                    fsfsf
-                  </li>
-                )
-              })}
+              {!contacts.length && <li className="contacts__empty conversation__empty">Сообщений еще нет</li>}
+              {selectedContact &&
+                contacts[contacts.findIndex(item => item.phone === selectedContact)].messages.map(
+                  (message, index) => {
+                    return (
+                      <li key={index} className={message.replay ? 'message' : 'message message__replay'}>
+                        {message.message}
+                      </li>
+                    )
+                  }
+                )}
             </ul>
-            <div className="chat__controls conversation__controls">
-              <form onSubmit={sendMessageHandler} className="chat__add">
-                <input
-                  value={messageValue}
-                  onChange={e => setMessageValue(e.target.value)}
-                  className="chat__input auth__input"
-                  type="text"
-                  placeholder="Напишите сообщение"
-                  required
+            {selectedContact && (
+              <div className="chat__controls conversation__controls">
+                <SendMessage
+                  sendMessageHandler={sendMessageHandler}
+                  messageValue={messageValue}
+                  setMessageValue={setMessageValue}
                 />
-                <button className="btn chat__btn">
-                  <GrAdd />
-                </button>
-              </form>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

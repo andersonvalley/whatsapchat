@@ -18,10 +18,19 @@ export const contactSlice = createSlice({
     addContact(state, { payload }) {
       if (state.contacts.find(item => item.phone === payload.phone)) return
       state.contacts.push(payload)
+      localStorage.setItem('contacts', JSON.stringify(state.contacts))
+    },
+    addMessage(state, { payload }) {
+      const find = state.contacts.find(item => item.phone === payload.phone)
+      console.log(find)
+      if (find) {
+        state.contacts.filter(item => item.phone === find.phone && item.messages.push(payload.message))
+        localStorage.setItem('contacts', JSON.stringify(state.contacts))
+      }
     },
   },
 })
 
-export const { addContact } = contactSlice.actions
+export const { addContact, addMessage } = contactSlice.actions
 export const selectContact = (state: RootState) => state.contact
 export default contactSlice.reducer

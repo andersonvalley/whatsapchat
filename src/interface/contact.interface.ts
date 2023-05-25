@@ -1,3 +1,5 @@
+import { IMessage } from './message.interface'
+
 export interface IMessageRequest {
   chatId: string
   message: string
@@ -9,5 +11,5 @@ export interface IMessageResponse {
 
 export interface IContacts {
   phone: string
-  message: string
+  messages: IMessage[]
 }

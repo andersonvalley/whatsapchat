@@ -24,20 +24,24 @@
     max-width: 400px;
     width: 100%;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
 
     @media (max-width: 900px) {
       max-width: 55px;
     }
   }
 
+  &__controls-end.chat__conversation-controls {
+    justify-content: flex-end;
+  }
+
   &__conversation {
     width: 100%;
     height: 100%;
-    overflow: scroll;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 
     .avatar {
       margin-right: 10px;
@@ -63,8 +67,11 @@
     border-right: 1px solid #ccc;
     display: flex;
     align-items: center;
-    justify-content: end;
     padding: 10px;
+
+    @media (max-width: 900px) {
+      height: 60px;
+    }
   }
 
   &__add {
@@ -129,6 +136,12 @@
     text-align: center;
     margin: 30px;
     color: var(--color-gray);
+
+    @media (max-width: 900px) {
+      &-mob {
+        display: none;
+      }
+    }
   }
 
   &__item {
@@ -141,6 +154,10 @@
     &:hover {
       background-color: var(--bg-chat);
     }
+
+    @media (max-width: 900px) {
+      height: 60px;
+    }
   }
 
   &__inner {
@@ -151,6 +168,8 @@
   &__lastMessage {
     display: inline;
     white-space: nowrap;
+    font-size: 1.3rem;
+    color: #aaaaaa;
   }
 
   &__avatar {
@@ -187,9 +206,20 @@
 .conversation {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  width: 100%;
+  top: 77px;
+  height: 100%;
+
+  &__empty {
+    margin-bottom: 80px;
+  }
 
   &__controls {
     border-right: 0;
+    position: absolute;
+    bottom: 77px;
+    width: 100%;
 
     @media (max-width: 900px) {
       input.chat__input {
@@ -207,7 +237,10 @@
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     padding: 0 10px;
+    height: calc(100vh - 211px);
+    overflow-y: scroll;
   }
 }
 
@@ -243,7 +276,14 @@
     display: block;
     position: absolute;
     bottom: 6%;
-    left: 2.5%;
+    left: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .mobile {
+    bottom: 2%;
+    left: 7px;
   }
 }
 
