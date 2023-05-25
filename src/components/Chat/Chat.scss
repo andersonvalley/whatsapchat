@@ -11,7 +11,6 @@
     width: 100%;
     border-radius: 10px;
     box-shadow: 0 0 10px #0000004d;
-    overflow: hidden;
 
     @media (max-width: 400px) {
       height: 100%;
@@ -42,6 +41,7 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    min-height: min-content;
 
     .avatar {
       margin-right: 10px;
@@ -206,10 +206,11 @@
 .conversation {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   position: absolute;
   width: 100%;
   top: 77px;
-  height: 100%;
+  height: calc(100% - 77px);
 
   &__empty {
     margin-bottom: 80px;
@@ -218,7 +219,7 @@
   &__controls {
     border-right: 0;
     position: absolute;
-    bottom: 77px;
+    bottom: 0;
     width: 100%;
 
     @media (max-width: 900px) {
@@ -234,19 +235,19 @@
   }
 
   &__message {
-    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    align-items: flex-end;
     padding: 0 10px;
-    height: calc(100vh - 211px);
-    overflow-y: scroll;
+    overflow: scroll;
+    margin-bottom: 77px;
   }
 }
 
 .message {
   border-radius: 5px;
-  background-color: var(--bg-chat);
+  background-color: var(--bg-accent);
+  color: #fff;
   display: inline-block;
   max-width: 230px;
   padding: 8px 10px;
@@ -257,7 +258,9 @@
   }
 
   &__replay {
-    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--bg-chat);
+    color: #000;
   }
 }
 

@@ -4,15 +4,15 @@ import { GrAdd } from 'react-icons/gr'
 import defaultAvatar from '../../assets/defaultAvatar.jpg'
 import { useFormatNumber } from '../../hooks/useFormatPhone'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
+import { useNotification } from '../../hooks/useNotification'
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux'
 import { logout } from '../../store/slices/authSlice'
-import { addContact, addMessage } from '../../store/slices/contactsSlice'
+import { addContact, addMessage, fetchSendMessage } from '../../store/slices/contactsSlice'
 import { Contact } from '../Contact/Contact'
 import { AddContact } from '../UI/Form/AddContact'
 import { SendMessage } from '../UI/Form/SendMessage'
 import { Modal } from '../UI/Modal/Modal'
 import './Chat.scss'
-import { messageService } from '../../service/message.service'
 
 export const Chat = () => {
   const dispatch = useAppDispatch()
@@ -24,6 +24,7 @@ export const Chat = () => {
 
   const formatNumber = useFormatNumber()
   useLocalStorage()
+  useNotification(5000)
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const reg = /[^0-9,-,+]/g
@@ -52,7 +53,8 @@ export const Chat = () => {
       chatId: selectedContact.slice(1) + '@c.us',
       message: messageValue,
     }
-    messageService.sendMessage(data)
+
+    dispatch(fetchSendMessage(data))
 
     const dataMessage = {
       message: {
@@ -132,7 +134,7 @@ export const Chat = () => {
                 contacts[contacts.findIndex(item => item.phone === selectedContact)].messages.map(
                   (message, index) => {
                     return (
-                      <li key={index} className={message.replay ? 'message' : 'message message__replay'}>
+                      <li key={index} className={message.replay ? 'message message__replay' : 'message'}>
                         {message.message}
                       </li>
                     )

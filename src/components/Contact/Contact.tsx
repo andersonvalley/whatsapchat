@@ -18,7 +18,7 @@ export const Contact: FC<Props> = ({ contact, selectContact }) => {
       </div>
       <div className="contacts__inner">
         <div className="contacts__title">{formatNumber(contact.phone)}</div>
-        <p className="contacts__lastMessage">{contact.messages[0].message}</p>
+        <p className="contacts__lastMessage">{contact?.messages.at(-1)?.message}</p>
       </div>
     </li>
   )

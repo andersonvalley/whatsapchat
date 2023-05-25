@@ -8,6 +8,13 @@ export interface IMessageRequest {
 export interface IMessageResponse {
   idMessage: string
 }
+export interface IMessageNotification {
+  receiptId: string
+  body: any
+}
+export interface IDeleteMessageNotification {
+  result: boolean
+}
 
 export interface IContacts {
   phone: string
