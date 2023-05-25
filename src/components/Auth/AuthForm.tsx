@@ -9,8 +9,8 @@ export const AuthForm = () => {
   const { loading, error } = useAppSelector(store => store.auth)
 
   const [values, setValues] = useState<IAuth>({
-    id: '1101824301',
-    api: '4ebb8dabe1b143c0b6bfe1659e42f28851bbe7da9b234d1c93',
+    id: '1101824481',
+    api: 'e6da1302feb149be846102c7bff73397c8de51496e3f4c21ae',
   })
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault()

@@ -1,10 +1,12 @@
 :root {
   --bg: #fff;
   --bg-input: #f8f7f7;
+  --bg-chat: #f1f1f1;
   --bg-input-hover: #f0f0f0;
   --bg-accent: #00a884;
   --bg-accent-hover: #029a79;
   --color: #1b1c23;
+  --color-gray: #858585;
   --color-white: #fff;
 }
 
@@ -53,6 +55,10 @@ button {
   max-width: 1300px;
   padding: 0 15px;
   margin: 0 auto;
+
+  @media (max-width: 400px) {
+    padding: 0;
+  }
 }
 
 .loading {

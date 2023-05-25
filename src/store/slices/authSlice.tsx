@@ -25,6 +25,9 @@ export const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.statusInstance = null
+
+      localStorage.removeItem('api')
+      localStorage.removeItem('id')
     },
   },
   extraReducers(builder) {

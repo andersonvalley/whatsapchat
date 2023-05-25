@@ -1,3 +1,5 @@
+import { Chat } from '../../components/Chat/Chat'
+
 export const ChatPage = () => {
-  return <div>ChatPage</div>
+  return <Chat />
 }

@@ -6,7 +6,7 @@ import { privateRoutes, publicRoutes } from './Routes'
 export const AppRouter = () => {
   const { statusInstance, loading } = useAppSelector(store => store.auth)
   useCheckAuth()
-  const isAuth = statusInstance === 'offline' || statusInstance === 'online'
+  const isAuth = !!statusInstance
 
   if (loading) {
     return (

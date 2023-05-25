@@ -1,8 +1,8 @@
 export interface IAuth {
-  id: string | null
-  api: string | null
+  id: string
+  api: string
 }
 
 export interface IStatusAccount {
-  statusInstance: null | undefined | 'online' | 'offline'
+  statusInstance: 'online' | 'offline' | null
 }

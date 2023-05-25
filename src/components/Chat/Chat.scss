@@ -1,0 +1,296 @@
+.chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    height: 90%;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #0000004d;
+    overflow: hidden;
+
+    @media (max-width: 400px) {
+      height: 100%;
+      box-shadow: 0 0 10px transparent;
+      border-radius: 0px;
+    }
+  }
+
+  &__contacts {
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+
+    @media (max-width: 900px) {
+      max-width: 55px;
+    }
+  }
+
+  &__conversation {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .avatar {
+      margin-right: 10px;
+    }
+  }
+
+  &__conversation-controls {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__phone {
+    font-weight: 600;
+
+    @media (max-width: 900px) {
+      font-size: 1.3rem;
+    }
+  }
+
+  &__controls {
+    height: 70px;
+    background-color: var(--bg-chat);
+    border-right: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 10px;
+  }
+
+  &__add {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__input.auth__input {
+    flex-grow: 1;
+    padding: 10px 20px;
+    margin-right: 10px;
+    width: auto;
+
+    &:focus {
+      border: 1px solid transparent;
+      background-color: var(--bg);
+    }
+  }
+
+  &__btn {
+    background-color: var(--bg-accent);
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: all 200ms ease-in-out;
+
+    svg path {
+      stroke: #fff;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.avatar {
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 40px;
+
+    @media (max-width: 900px) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+.contacts {
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__empty {
+    text-align: center;
+    margin: 30px;
+    color: var(--color-gray);
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 13px;
+
+    &:hover {
+      background-color: var(--bg-chat);
+    }
+  }
+
+  &__inner {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  &__lastMessage {
+    display: inline;
+    white-space: nowrap;
+  }
+
+  &__avatar {
+    margin-right: 10px;
+
+    img {
+      width: 50px;
+      height: 50px;
+
+      @media (max-width: 900px) {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.logout {
+  svg {
+    fill: #fff;
+  }
+}
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+
+  &__controls {
+    border-right: 0;
+
+    @media (max-width: 900px) {
+      input.chat__input {
+        width: 80%;
+        font-size: 1.4rem;
+
+        &::placeholder {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+
+  &__message {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+  }
+}
+
+.message {
+  border-radius: 5px;
+  background-color: var(--bg-chat);
+  display: inline-block;
+  max-width: 230px;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+
+  @media (max-width: 900px) {
+    max-width: 130px;
+  }
+
+  &__replay {
+    margin-left: auto;
+  }
+}
+
+.chat__contacts-controls {
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobile {
+    display: block;
+    position: absolute;
+    bottom: 6%;
+    left: 2.5%;
+  }
+}
+
+.overlay {
+  position: fixed;
+  background-color: #00000079;
+  inset: 0;
+  z-index: 3;
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 200ms ease-in-out;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__content {
+    background-color: var(--bg);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    border-radius: 10px;
+    padding: 50px 10px 10px;
+  }
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
