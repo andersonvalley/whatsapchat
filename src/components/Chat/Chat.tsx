@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { BiLogOut } from 'react-icons/bi'
-import { GrAdd } from 'react-icons/gr'
-import defaultAvatar from '../../assets/defaultAvatar.jpg'
+
 import { useFormatNumber } from '../../hooks/useFormatPhone'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import { useNotification } from '../../hooks/useNotification'
@@ -12,6 +10,11 @@ import { Contact } from '../Contact/Contact'
 import { AddContact } from '../UI/Form/AddContact'
 import { SendMessage } from '../UI/Form/SendMessage'
 import { Modal } from '../UI/Modal/Modal'
+
+import { BiLogOut } from 'react-icons/bi'
+import { GrAdd } from 'react-icons/gr'
+import defaultAvatar from '../../assets/defaultAvatar.jpg'
+
 import './Chat.scss'
 
 export const Chat = () => {

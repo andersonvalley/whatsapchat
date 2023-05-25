@@ -10,7 +10,7 @@ export const useNotification = (ms: number) => {
     setInterval(() => {
       dispatch(fetchMessageNotification())
     }, ms)
-  }, [dispatch])
+  }, [dispatch, ms])
 
   useEffect(() => {
     if (receiptId) {

@@ -72,8 +72,6 @@ export const contactSlice = createSlice({
         }
 
         state.contacts = state.contacts.map(item => {
-          console.log(item.phone)
-          console.log('phone', phone)
           if (item.phone === phone) {
             item.messages.push(message)
           } else {

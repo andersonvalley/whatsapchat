@@ -22,12 +22,7 @@ export class messageService {
     const api = localStorage.getItem('api')
     const id = localStorage.getItem('id')
 
-    const { data } = await instance<IMessageNotification>(`/waInstance${id}/receiveNotification/${api}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-    })
+    const { data } = await instance<IMessageNotification>(`/waInstance${id}/receiveNotification/${api}`)
     return data
   }
 
@@ -39,9 +34,6 @@ export class messageService {
       `/waInstance${id}/deleteNotification/${api}/${receiptId}`,
       {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
       }
     )
     return data
